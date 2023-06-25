@@ -26,7 +26,6 @@ This is a plugin for ChatGPT that allows it to control Spotify. You can play and
 
 4. **Add the Spotify Plugin to ChatGPT**
    - Go to [ChatGPT](https://chat.openai.com)
-   - Click on 'Model Selector'
    - Click on 'GPT-4 > Plugins'
    - Click on 'Plugin Store'
    - Click on 'Develop Your Own Plugin'
