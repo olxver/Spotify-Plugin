@@ -47,7 +47,7 @@ Congratulations! The plugin is now authenticated with Spotify and ready to use. 
 
 ## Issues
 
-If you encounter any bugs or issues, kindly open an issue [here](link-to-your-github-repo-issues).
+If you encounter any bugs or issues, kindly open an issue [here](https://github.com/olxver/Spotify-Plugin/issues)
 
 ## Contributing
 
