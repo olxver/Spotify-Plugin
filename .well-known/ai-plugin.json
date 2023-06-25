@@ -1,0 +1,16 @@
+{
+    "schema_version": "v1",
+    "name_for_human": "Spotify Controller",
+    "name_for_model": "spotify",
+    "description_for_human": "Control Spotify via ChatGPT.",
+    "description_for_model": "Plugin for controlling Spotify.",
+    "auth": {
+        "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "http://localhost:5005/openapi.yaml"
+    },
+    "logo_url": "http://localhost:5005/logo.png",
+    "contact_email": "olii.james2509@gmail.com"
+}
