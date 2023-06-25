@@ -1,0 +1,300 @@
+
+openapi: 3.0.1
+info:
+  title: Spotify Control Plugin
+  description: A plugin that allows the user to control Spotify playback.
+  version: 'v1'
+servers:
+  - url: http://localhost:5005
+paths:
+  /resume:
+    post:
+      operationId: resume
+      summary: Resume Spotify playback.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                context_uri:
+                  type: string
+      responses:
+        "200":
+          description: OK
+  /pause:
+    post:
+      operationId: pause
+      summary: Pause Spotify playback.
+      responses:
+        "200":
+          description: OK
+  /search:
+    post:
+      operationId: search
+      summary: Search for a song, artist, or album.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: The name of the song, artist, or album to search for.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        artist:
+                          type: string
+                        album:
+                          type: string
+                        uri:
+                          type: string
+
+
+  /playlists/{playlist_id}/tracks:
+    post:
+      summary: Add a track to a playlist
+      operationId: addTrackToPlaylist
+      parameters:
+        - name: playlist_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                track_uri:
+                  type: string
+      responses:
+        '200':
+          description: The track was added successfully
+        '404':
+          description: The playlist was not found
+
+
+  /playlists:
+    get:
+      operationId: getPlaylists
+      summary: Get the user's playlists.
+      responses:
+        "200":
+          description: OK
+
+
+
+
+  /playsong:
+    post:
+      operationId: playsong
+      summary: Play a song using its Spotify URI.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                context_uri:
+                  type: string
+      responses:
+        "200":
+          description: OK
+
+  /track:
+    get:
+      operationId: get_track
+      summary: Get a track by its Spotify ID.
+      parameters:
+        - name: track_id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  track_name:
+                    type: string
+                  artist_name:
+                    type: string
+                  album_name:
+                    type: string
+
+  /skip:
+    post:
+      operationId: skip
+      summary: Skip to the next song.
+      responses:
+        "200":
+          description: OK
+  /previous:
+    post:
+      operationId: previous
+      summary: Go back to the previous song.
+      responses:
+        "200":
+          description: OK
+          
+  /playplaylist:
+    post:
+      operationId: playplaylist
+      summary: Play a playlist using its Spotify URI.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                context_uri:
+                  type: string
+      responses:
+        "200":
+          description: OK
+
+
+  /currently_playing:
+    get:
+      operationId: currently_playing
+      summary: Get the currently playing track.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  track_name:
+                    type: string
+                  artist_name:
+                    type: string
+                  album_name:
+                    type: string
+
+
+  /track_info:
+    get:
+      operationId: track_info
+      summary: Get information about the currently playing track.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  album:
+                    type: object
+                  artists:
+                    type: array
+                    items:
+                      type: object
+                  available_markets:
+                    type: array
+                    items:
+                      type: string
+                  disc_number:
+                    type: integer
+                  duration_ms:
+                    type: integer
+                  explicit:
+                    type: boolean
+                  external_ids:
+                    type: object
+                  external_urls:
+                    type: object
+                  href:
+                    type: string
+                  id:
+                    type: string
+                  is_playable:
+                    type: boolean
+                  name:
+                    type: string
+                  popularity:
+                    type: integer
+                  preview_url:
+                    type: string
+                  track_number:
+                    type: integer
+                  type:
+                    type: string
+                  uri:
+                    type: string
+                  is_local:
+                    type: boolean
+
+  /set_volume:
+    post:
+      operationId: set_volume
+      summary: Set the volume for the given device.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                volume:
+                  type: integer
+                  description: The volume to set. Must be a value from 0 to 100 inclusive.
+                device_id:
+                  type: string
+                  description: The id of the device this command is targeting. If not supplied, the user's currently active device is the target.
+                confirm:
+                  type: string
+                  description: A confirmation to set the volume above 75. Must be 'y' to confirm. ALWAYS ASK THE USER TO CONFIRM, IF OVER 75%. NEVER CHANGE IT WITHOUT CONFIRMATION
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Volume above 75% without confirmation.
+
+
+  /lyrics:
+    get:
+      summary: Get the lyrics of the currently playing song
+      operationId: getLyrics
+      responses:
+        '200':
+          description: Lyrics of the currently playing song
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lyrics:
+                    type: string
+                    description: The lyrics of the song.
+        '400':
+          description: No song is currently playing or lyrics could not be found
+        '500':
+          description: Server error
